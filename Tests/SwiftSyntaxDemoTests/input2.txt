@@ -1,0 +1,7 @@
+import scary_snek
+
+let scary_anaconda = 5
+
+var scary_cobra = 10
+
+let big_python = scary_cobra * scary_anaconda
