@@ -1,0 +1,4 @@
+func foo(__param_1__: Int, withParamTwo param____two: Int) {
+  let _lo_cal_3 = 4
+  return __param_1__ + param____two + _lo_cal_3
+}
