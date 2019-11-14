@@ -14,22 +14,21 @@ final class SnakeCaseRewriter: SyntaxRewriter {
   /// Removes all underscores from the identifier and capitalizes characters
   /// following underscores. Assumes `identifier` is a valid identifier.
   private func convertToCamelCase(_ identifier: String) -> String {
+    let identifier = Array(identifier)
     var newIdentifier = ""
-
     var i = 0
     while i < identifier.count {
-      if identifier.characters[i] == "_" && i+1 < identifier.count &&
-      ("a"..."z").contains(identifier.characters[i+1]) {
-        newIdentifier.append(identifier.characters[i+1].uppercased())
+      if identifier[i] == "_" && i+1 < identifier.count &&
+      ("a"..."z").contains(identifier[i+1]) {
+        newIdentifier.append(identifier[i+1].uppercased())
         i += 2
       } else if identifier[i] != "_" {
-        newIdentifier.append(identifier.characters[i])
+        newIdentifier.append(identifier[i])
         i += 1
       } else {
         i += 1
       }
     }
-    
     return newIdentifier
   }
 
@@ -37,20 +36,22 @@ final class SnakeCaseRewriter: SyntaxRewriter {
     guard case .identifier(let identifier) = node.identifier.tokenKind else { return node }
     if isSnakeCase(identifier) {
       let newIdentifier = convertToCamelCase(identifier)
-      // TODO
+      let newToken = node.identifier.withKind(.identifier(newIdentifier))
+      let newNode = node.withIdentifier(newToken)
+      return super.visit(newNode)
     }
 
-    return node
+    return super.visit(node)
   }
 
   override func visit(_ node: IdentifierExprSyntax) -> ExprSyntax {
     guard case .identifier(let identifier) = node.identifier.tokenKind else { return node }
-    // TODO - see if we get past the guard
-    print("HERE!")
     if isSnakeCase(identifier) {
       let newIdentifier = convertToCamelCase(identifier)
-      // TODO
+      let newToken = node.identifier.withKind(.identifier(newIdentifier))
+      let newNode = node.withIdentifier(newToken)
+      return super.visit(newNode)
     }
-    return node
+    return super.visit(node)
   }
 }

@@ -26,7 +26,6 @@ final class SwiftSyntaxDemoTests: XCTestCase {
       let url = URL(fileURLWithPath: testDirectoryPrefix + "input2.txt")
       let sourceFile = try! SyntaxTreeParser.parse(url)
       let reformattedSource = SnakeCaseRewriter().visit(sourceFile)
-      print(reformattedSource)
     }
 
     static var allTests = [

@@ -4,7 +4,7 @@ final class IntegerLiteralFormatter: SyntaxRewriter {
   override func visit(_ token: TokenSyntax) -> Syntax {
     // Only transform integer literals.
     guard case .integerLiteral(let text) = token.tokenKind else {
-      return token
+      return super.visit(token)
     }
 
     // Remove existing underscores
@@ -23,6 +23,7 @@ final class IntegerLiteralFormatter: SyntaxRewriter {
     integerTextWithUnderscores = String(integerTextWithUnderscores.reversed())
 
     // Return the same integer literal token, but with the underscores
-    return token.withKind(.integerLiteral(integerTextWithUnderscores))
+    let newToken = token.withKind(.integerLiteral(integerTextWithUnderscores))
+    return super.visit(newToken)
   }
 }

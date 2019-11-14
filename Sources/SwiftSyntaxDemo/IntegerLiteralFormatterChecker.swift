@@ -12,7 +12,7 @@ final class IntegerLiteralFormatterChecker: SyntaxRewriter {
   override func visit(_ token: TokenSyntax) -> Syntax {
     // Only transform integer literals.
     guard case .integerLiteral(let text) = token.tokenKind else {
-      return token
+      return super.visit(token)
     }
 
     // If an integer literal has less than 3 or fewer characters but contains
@@ -34,6 +34,6 @@ final class IntegerLiteralFormatterChecker: SyntaxRewriter {
       }
     }
 
-    return token
+    return super.visit(token)
   }
 }
