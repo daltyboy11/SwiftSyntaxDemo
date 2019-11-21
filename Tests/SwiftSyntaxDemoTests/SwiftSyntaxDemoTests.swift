@@ -6,13 +6,6 @@ import SwiftSyntax
 final class SwiftSyntaxDemoTests: XCTestCase {
   private let testDirectoryPrefix = "./Tests/SwiftSyntaxDemoTests/"
 
-  func testExample() {
-      // This is an example of a functional test case.
-      // Use XCTAssert and related functions to verify your tests produce the correct
-      // results.
-      XCTAssertEqual(SwiftSyntaxDemo().text, "Hello, World!")
-  }
-
   func testIntegerLiteralFormatter() {
     let url = URL(fileURLWithPath: testDirectoryPrefix + "input1.txt")
     let sourceFile = try! SyntaxTreeParser.parse(url)
@@ -48,8 +41,4 @@ final class SwiftSyntaxDemoTests: XCTestCase {
       String(describing: reformattedSource),
       try! String(contentsOfFile: testDirectoryPrefix + "expected4.txt", encoding: .utf8))
   }
-
-  static var allTests = [
-      ("testExample", testExample),
-  ]
 }
