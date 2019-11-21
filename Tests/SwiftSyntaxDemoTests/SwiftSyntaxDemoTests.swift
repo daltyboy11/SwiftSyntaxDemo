@@ -40,6 +40,15 @@ final class SwiftSyntaxDemoTests: XCTestCase {
       try! String(contentsOfFile: testDirectoryPrefix + "expected3.txt", encoding: .utf8))
   }
 
+  func testSnakeCaseRewriter3() {
+    let url = URL(fileURLWithPath: testDirectoryPrefix + "input4.txt")
+    let sourceFile = try! SyntaxTreeParser.parse(url)
+    let reformattedSource = SnakeCaseRewriter().visit(sourceFile)
+    XCTAssertEqual(
+      String(describing: reformattedSource),
+      try! String(contentsOfFile: testDirectoryPrefix + "expected4.txt", encoding: .utf8))
+  }
+
   static var allTests = [
       ("testExample", testExample),
   ]

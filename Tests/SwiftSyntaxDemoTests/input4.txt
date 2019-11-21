@@ -15,40 +15,40 @@ final class SnakeCaseRewriter: SyntaxRewriter {
   /// leading underscores.
   private func convertToCamelCase(_ identifier: String) -> String {
     let identifier = Array(identifier)
-    var newIdentifier = ""
+    var new_identifier = ""
     var i = 0
-    var hasSeenNonUnderscoreCharacter = false
+    var has_seen_non_underscore_character = false
     while i < identifier.count {
       if identifier[i] != "_" {
-        hasSeenNonUnderscoreCharacter = true
+        has_seen_non_underscore_character = true
       }
 
-      if identifier[i] == "_" && !hasSeenNonUnderscoreCharacter {
-        newIdentifier.append("_")
+      if identifier[i] == "_" && !has_seen_non_underscore_character {
+        new_identifier.append("_")
         i += 1
       } else if identifier[i] == "_" &&
           i+1 < identifier.count &&
           ("a"..."z").contains(identifier[i+1]) {
-        newIdentifier.append(identifier[i+1].uppercased())
+        new_identifier.append(identifier[i+1].uppercased())
         i += 2
       } else if identifier[i] != "_" {
-        newIdentifier.append(identifier[i])
+        new_identifier.append(identifier[i])
         i += 1
       } else {
         i += 1
       }
     }
 
-    return newIdentifier
+    return new_identifier
   }
 
   override func visit(_ node: IdentifierPatternSyntax) -> PatternSyntax {
     guard case .identifier(let identifier) = node.identifier.tokenKind else { return node }
     if isSnakeCase(identifier) {
-      let newIdentifier = convertToCamelCase(identifier)
-      let newToken = node.identifier.withKind(.identifier(newIdentifier))
-      let newNode = node.withIdentifier(newToken)
-      return super.visit(newNode)
+      let new_identifier = convertToCamelCase(identifier)
+      let new_token = node.identifier.withKind(.identifier(new_identifier))
+      let new_node = node.withIdentifier(new_token)
+      return super.visit(new_node)
     }
 
     return super.visit(node)
@@ -57,10 +57,10 @@ final class SnakeCaseRewriter: SyntaxRewriter {
   override func visit(_ node: IdentifierExprSyntax) -> ExprSyntax {
     guard case .identifier(let identifier) = node.identifier.tokenKind else { return node }
     if isSnakeCase(identifier) {
-      let newIdentifier = convertToCamelCase(identifier)
-      let newToken = node.identifier.withKind(.identifier(newIdentifier))
-      let newNode = node.withIdentifier(newToken)
-      return super.visit(newNode)
+      let new_identifier = convertToCamelCase(identifier)
+      let new_token = node.identifier.withKind(.identifier(new_identifier))
+      let new_node = node.withIdentifier(new_token)
+      return super.visit(new_node)
     }
     return super.visit(node)
   }
@@ -71,20 +71,20 @@ final class SnakeCaseRewriter: SyntaxRewriter {
     // secondName. If only firstName is non nil then it's a function parameter
     // like foo(x: ...) and we wont to modify the first name.
     if let _ = node.firstName,
-      let secondNameToken = node.secondName,
-      case .identifier(let identifier) = secondNameToken.tokenKind,
+      let second_name_token = node.secondName,
+      case .identifier(let identifier) = second_name_token.tokenKind,
       isSnakeCase(identifier) {
-      let newIdentifier = convertToCamelCase(identifier)
-      let newSecondName = secondNameToken.withKind(.identifier(newIdentifier))
-      let newNode = node.withSecondName(newSecondName)
-      return super.visit(newNode)
-    } else if let firstNameToken = node.firstName,
-      case .identifier(let identifier) = firstNameToken.tokenKind,
+      let new_identifier = convertToCamelCase(identifier)
+      let new_second_name = second_name_token.withKind(.identifier(new_identifier))
+      let new_node = node.withSecondName(new_second_name)
+      return super.visit(new_node)
+    } else if let first_name_token = node.firstName,
+      case .identifier(let identifier) = first_name_token.tokenKind,
       isSnakeCase(identifier) {
-      let newIdentifier = convertToCamelCase(identifier)
-      let newFirstName = firstNameToken.withKind(.identifier(newIdentifier))
-      let newNode = node.withFirstName(newFirstName)
-      return super.visit(newNode)
+      let new_identifier = convertToCamelCase(identifier)
+      let new_first_name = first_name_token.withKind(.identifier(new_identifier))
+      let new_node = node.withFirstName(new_first_name)
+      return super.visit(new_node)
     }
     
     // We should never get here. You can't have an unnamed parameter!
