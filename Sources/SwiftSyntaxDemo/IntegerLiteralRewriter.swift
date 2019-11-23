@@ -1,6 +1,6 @@
 import SwiftSyntax
 
-final class IntegerLiteralFormatter: SyntaxRewriter {
+final class IntegerLiteralRewriter: SyntaxRewriter {
   override func visit(_ token: TokenSyntax) -> Syntax {
     // Only transform integer literals.
     guard case .integerLiteral(let text) = token.tokenKind else {

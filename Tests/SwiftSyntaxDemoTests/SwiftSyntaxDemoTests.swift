@@ -9,7 +9,7 @@ final class SwiftSyntaxDemoTests: XCTestCase {
   func testIntegerLiteralFormatter() {
     let url = URL(fileURLWithPath: testDirectoryPrefix + "input1.txt")
     let sourceFile = try! SyntaxTreeParser.parse(url)
-    let reformattedSource = IntegerLiteralFormatter().visit(sourceFile)
+    let reformattedSource = IntegerLiteralRewriter().visit(sourceFile)
     XCTAssertEqual(
       String(describing: reformattedSource),
       try! String(contentsOfFile: testDirectoryPrefix + "expected1.txt", encoding: .utf8))
